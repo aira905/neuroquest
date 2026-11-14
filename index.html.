@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07152f">
+<title>NEUROQUEST | STEM Intelligence Challenge</title>
+<style>
+:root{--bg:#07152f;--panel:#102447;--panel2:#0b1d3b;--cyan:#54dcff;--purple:#a78bfa;--text:#f4f8ff;--muted:#b7c7e4;--good:#42d392;--bad:#ff7185}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:radial-gradient(circle at 15% 10%,#183a70 0,transparent 34%),radial-gradient(circle at 90% 80%,#30205e 0,transparent 30%),var(--bg);color:var(--text);min-height:100vh}
+.wrap{width:min(900px,92%);margin:auto;padding:28px 0 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px}.brand{font-weight:900;letter-spacing:3px;color:var(--cyan);font-size:14px}.tag{border:1px solid #36527c;border-radius:99px;padding:7px 12px;color:var(--muted);font-size:12px}
+.hero,.quizbox,.result{background:linear-gradient(145deg,rgba(17,39,75,.96),rgba(9,27,56,.96));border:1px solid #28466f;border-radius:24px;box-shadow:0 18px 55px #0005}
+.hero{padding:clamp(24px,6vw,54px);text-align:center}.eyebrow{color:var(--cyan);font-weight:800;letter-spacing:3px;font-size:12px}.hero h1{font-size:clamp(42px,9vw,76px);line-height:1;margin:16px 0 12px;letter-spacing:2px}.hero h1 span{color:var(--cyan)}.sub{color:var(--muted);max-width:600px;margin:0 auto 24px;line-height:1.7}.stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px 0 28px}.stat{background:#071a37;border:1px solid #29466f;border-radius:14px;padding:12px 18px;min-width:105px}.stat b{display:block;font-size:21px;color:var(--cyan)}.stat small{color:var(--muted)}
+button{border:0;border-radius:13px;padding:14px 22px;font-size:15px;font-weight:800;cursor:pointer;transition:.18s}button:hover{transform:translateY(-2px)}button:focus-visible{outline:3px solid white;outline-offset:3px}.primary{background:linear-gradient(90deg,var(--cyan),#9b9bff);color:#07152f}.secondary{background:#1a345b;color:var(--text);border:1px solid #42618d}.note{font-size:12px;color:var(--muted);margin-top:18px}
+.quizbox{padding:clamp(18px,4vw,34px);display:none}.quizhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.pill{background:#071a37;border:1px solid #36527c;border-radius:99px;padding:8px 12px;font-size:12px;color:var(--muted)}.progress{height:8px;background:#07152f;border-radius:99px;overflow:hidden;margin-bottom:24px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .25s}
+.qnum{color:var(--cyan);font-weight:800;font-size:13px;letter-spacing:1.5px}.question{font-size:clamp(20px,4vw,29px);line-height:1.4;margin:12px 0 22px}.options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.option{background:#0a1c39;color:var(--text);border:1px solid #36527c;text-align:left;min-height:64px;display:flex;align-items:center;gap:12px}.letter{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:#1a3963;color:var(--cyan);flex:none}.option.selected{border-color:var(--cyan);background:#12345a}.option.correct{border-color:var(--good);background:#103d38}.option.wrong{border-color:var(--bad);background:#49263a}.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px}.feedback{min-height:24px;color:var(--muted);font-size:14px;margin-top:14px}.result{display:none;padding:clamp(24px,6vw,50px);text-align:center}.score{font-size:clamp(54px,12vw,86px);font-weight:900;color:var(--cyan);margin:12px}.result p{color:var(--muted);line-height:1.7}.review{text-align:left;margin:24px auto 0;max-width:650px}.review details{background:#091b37;border:1px solid #2b466e;border-radius:12px;padding:12px;margin:9px 0}.review summary{cursor:pointer;font-weight:700}.footer{text-align:center;color:#8ea5c9;font-size:12px;margin-top:22px}
+@media(max-width:600px){.options{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.controls{align-items:stretch}.controls button{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">✦ NEUROQUEST</div><div class="tag">STEM INTELLIGENCE CHALLENGE</div></div>
+  <section class="hero" id="start">
+    <div class="eyebrow">THINK · CALCULATE · DISCOVER</div>
+    <h1>NEURO<span>QUEST</span></h1>
+    <p class="sub">Uji pemikiran logik, kemahiran Matematik dan pengetahuan Sains anda. Bersedia untuk cabaran STEM?</p>
+    <div class="stats"><div class="stat"><b>20</b><small>Soalan</small></div><div class="stat"><b>100</b><small>Markah penuh</small></div><div class="stat"><b>2</b><small>Bidang STEM</small></div></div>
+    <button class="primary" id="startBtn">MULA CABARAN →</button>
+    <div class="note">Setiap soalan bernilai 5 markah. Pilih satu jawapan terbaik.</div>
+  </section>
+  <section class="quizbox" id="quiz">
+    <div class="quizhead"><div class="pill" id="category">MATHEMATICS</div><div class="pill" id="counter">SOALAN 1 / 20</div></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="qnum" id="qnum">QUESTION 01</div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <div class="controls"><button class="secondary" id="backBtn">← Kembali</button><button class="primary" id="nextBtn" disabled>Seterusnya →</button></div>
+  </section>
+  <section class="result" id="result">
+    <div class="eyebrow">CHALLENGE COMPLETED</div><h2>KEPUTUSAN ANDA</h2><div class="score" id="score">0/100</div><h3 id="rank"></h3><p id="message"></p>
+    <button class="primary" id="retryBtn">CUBA LAGI</button>
+    <div class="review" id="review"></div>
+  </section>
+  <div class="footer">NEUROQUEST · THE ULTIMATE STEM INTELLIGENCE CHALLENGE</div>
+</div>
+<script>
+const questions = [
+{c:"MATHEMATICS",q:"Jika 3x − 7 = 20, apakah nilai x?",o:["7","8","9","10"],a:2,e:"3x = 27, maka x = 9."},
+{c:"MATHEMATICS",q:"Diberi jujukan 2, 6, 12, 20, 30, ... Apakah nombor seterusnya?",o:["36","40","42","44"],a:2,e:"Beza berturutan ialah 4, 6, 8, 10; beza seterusnya 12. Jadi 30 + 12 = 42."},
+{c:"MATHEMATICS",q:"Sebuah bulatan mempunyai jejari 7 cm. Hitungkan luasnya. (π = 22/7)",o:["44 cm²","77 cm²","144 cm²","154 cm²"],a:3,e:"Luas = πr² = 22/7 × 7 × 7 = 154 cm²."},
+{c:"MATHEMATICS",q:"Kotak mengandungi 3 bola merah, 2 biru dan 5 hijau. Apakah kebarangkalian memilih bola yang bukan hijau?",o:["1/5","1/4","1/2","3/4"],a:2,e:"Bola bukan hijau = 3 + 2 = 5 daripada 10. Kebarangkalian = 5/10 = 1/2."},
+{c:"MATHEMATICS",q:"Nisbah buku Matematik kepada buku Sains ialah 3 : 5. Jika jumlah buku 64, berapa buku Matematik?",o:["18","20","24","40"],a:2,e:"Jumlah bahagian = 8. Satu bahagian = 64 ÷ 8 = 8. Buku Matematik = 3 × 8 = 24."},
+{c:"MATHEMATICS",q:"Komputer berharga RM240 diberi diskaun 15%. Berapakah nilai diskaun?",o:["RM24","RM30","RM36","RM40"],a:2,e:"15% × RM240 = RM36."},
+{c:"MATHEMATICS",q:"Purata empat nombor ialah 18. Tiga nombor ialah 12, 16 dan 20. Apakah nombor keempat?",o:["22","24","26","28"],a:1,e:"Jumlah empat nombor = 4 × 18 = 72. Nombor keempat = 72 − 48 = 24."},
+{c:"MATHEMATICS",q:"Segi tiga bersudut tegak mempunyai sisi tegak 9 cm dan 12 cm. Berapakah hipotenusnya?",o:["13 cm","14 cm","15 cm","16 cm"],a:2,e:"Teorem Pythagoras: √(9² + 12²) = √225 = 15 cm."},
+{c:"MATHEMATICS",q:"Jika 2(x + 3) = 18, tentukan nilai x.",o:["5","6","7","8"],a:1,e:"2x + 6 = 18, maka 2x = 12 dan x = 6."},
+{c:"MATHEMATICS",q:"Hitungkan nilai 2³ + 3².",o:["15","16","17","18"],a:2,e:"2³ = 8 dan 3² = 9. Jumlahnya ialah 17."},
+{c:"SCIENCE",q:"Apakah organel sel yang menghasilkan sebahagian besar ATP melalui respirasi aerob?",o:["Ribosom","Mitokondrion","Jasad Golgi","Lisosom"],a:1,e:"Mitokondrion ialah tapak utama penghasilan ATP dalam respirasi aerob."},
+{c:"SCIENCE",q:"Apakah gas yang dibebaskan oleh tumbuhan semasa fotosintesis?",o:["Karbon dioksida","Nitrogen","Oksigen","Hidrogen"],a:2,e:"Oksigen dibebaskan semasa tindak balas fotosintesis."},
+{c:"SCIENCE",q:"Larutan X mempunyai pH 3 dan larutan Y pH 5. Berapa kali ganda kepekatan ion hidrogen X berbanding Y?",o:["2 kali","10 kali","100 kali","1,000 kali"],a:2,e:"Perbezaan 2 unit pH bersamaan faktor 10² = 100 bagi kepekatan ion hidrogen."},
+{c:"SCIENCE",q:"Dua mentol disambungkan secara bersiri kepada satu bateri. Apakah berlaku jika satu mentol ditanggalkan?",o:["Kedua-dua mentol terus menyala","Hanya satu mentol menyala","Kedua-dua mentol terpadam","Kecerahan kedua-duanya meningkat"],a:2,e:"Litar bersiri terputus apabila satu mentol ditanggalkan, jadi arus tidak mengalir."},
+{c:"SCIENCE",q:"Objek berjisim 120 g mempunyai isipadu 40 cm³. Berapakah ketumpatannya?",o:["2 g/cm³","3 g/cm³","4 g/cm³","5 g/cm³"],a:1,e:"Ketumpatan = jisim ÷ isipadu = 120 ÷ 40 = 3 g/cm³."},
+{c:"SCIENCE",q:"Objek berjisim 2 kg mengalami pecutan 3 m/s². Berapakah daya paduan?",o:["3 N","5 N","6 N","9 N"],a:2,e:"Hukum Newton Kedua: F = ma = 2 × 3 = 6 N."},
+{c:"SCIENCE",q:"Gelombang mempunyai frekuensi 5 Hz dan panjang gelombang 2 m. Berapakah lajunya?",o:["2.5 m/s","5 m/s","7 m/s","10 m/s"],a:3,e:"Laju gelombang = frekuensi × panjang gelombang = 5 × 2 = 10 m/s."},
+{c:"SCIENCE",q:"Apakah bes nitrogen dalam DNA yang berpasangan dengan Adenina (A)?",o:["Guanina","Sitosina","Timin","Urasil"],a:2,e:"Dalam DNA, Adenina berpasangan dengan Timin."},
+{c:"SCIENCE",q:"Apakah bahan yang digunakan dalam respirasi aerob untuk membebaskan tenaga daripada glukosa?",o:["Glukosa dan oksigen","Glukosa dan nitrogen","Karbon dioksida dan oksigen","Air dan nitrogen"],a:0,e:"Respirasi aerob menggunakan glukosa dan oksigen untuk membebaskan tenaga."},
+{c:"SCIENCE",q:"Apakah mekanisme pemindahan haba yang boleh berlaku melalui vakum?",o:["Konduksi","Perolakan","Sinaran","Penyejatan"],a:2,e:"Sinaran tidak memerlukan medium, maka boleh berlaku melalui vakum."}
+];
+let index=0, answers=Array(questions.length).fill(null), locked=false;
+const $=id=>document.getElementById(id);
+function showQuestion(){
+ locked=false; const q=questions[index];
+ $("category").textContent=q.c; $("counter").textContent=`SOALAN ${index+1} / ${questions.length}`;
+ $("qnum").textContent=`QUESTION ${String(index+1).padStart(2,"0")}`;
+ $("question").textContent=q.q; $("bar").style.width=`${index/questions.length*100}%`;
+ $("options").innerHTML="";
+ q.o.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${"ABCD"[i]}</span><span></span>`;b.querySelector("span:last-child").textContent=opt;b.onclick=()=>choose(i);$("options").appendChild(b)});
+ $("feedback").textContent=""; $("nextBtn").disabled=answers[index]===null;
+ $("nextBtn").textContent=index===questions.length-1?"Lihat keputusan →":"Seterusnya →";
+ $("backBtn").style.visibility=index===0?"hidden":"visible";
+ if(answers[index]!==null) choose(answers[index],true);
+}
+function choose(i,restore=false){
+ if(locked&&!restore)return; answers[index]=i; locked=true;
+ const q=questions[index]; [...$("options").children].forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("correct");if(j===i&&i!==q.a)b.classList.add("wrong")});
+ $("feedback").textContent=(i===q.a?"Tepat! ":"Belum tepat. ")+q.e;
+ $("nextBtn").disabled=false;
+}
+$("startBtn").onclick=()=>{$("start").style.display="none";$("quiz").style.display="block";showQuestion()};
+$("nextBtn").onclick=()=>{if(index<questions.length-1){index++;showQuestion()}else finish()};
+$("backBtn").onclick=()=>{if(index>0){index--;showQuestion()}};
+function finish(){
+ const correct=answers.reduce((n,a,i)=>n+(a===questions[i].a?1:0),0), score=correct*5;
+ $("quiz").style.display="none";$("result").style.display="block";$("bar").style.width="100%";
+ $("score").textContent=`${score}/100`;
+ $("rank").textContent=score>=90?"STEM MASTER":score>=75?"GENIUS THINKER":score>=50?"RISING EXPLORER":"FUTURE INNOVATOR";
+ $("message").textContent=`Anda menjawab ${correct} daripada 20 soalan dengan betul. Teruskan meneroka, berfikir secara kritis dan mencabar diri dalam STEM!`;
+ $("review").innerHTML="<h3>Semakan jawapan</h3>"+questions.map((q,i)=>`<details><summary>Soalan ${i+1}: ${answers[i]===q.a?"Betul ✓":"Perlu diperbaiki"}</summary><p>Jawapan betul: <b>${"ABCD"[q.a]}. ${q.o[q.a]}</b></p><p>${q.e}</p></details>`).join("");
+}
+$("retryBtn").onclick=()=>{index=0;answers=Array(questions.length).fill(null);$("result").style.display="none";$("start").style.display="block"};
+</script>
+</body></html>
